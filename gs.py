@@ -34,8 +34,10 @@ class GoogleSpread:
         try:
             if self.credentials.access_token_expired:
                 self.gc.login()  # refreshes the token
-        except Exception, e:
-            traceback.print_exc()
+        except Exception as e:
+            self.logger.error(sys._getframe().f_code.co_name)
+            self.logger.error(e)
+            return None
 
 
     def set_cntrol_book(self, ctr_book_key):
