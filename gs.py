@@ -16,7 +16,7 @@ class GoogleSpread:
 
         self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file, scope)
 
-        self.gc = gspread.authorize(credentials)
+        self.gc = gspread.authorize(self.credentials)
 
         # logger set
         # Prints logger info to terminal
