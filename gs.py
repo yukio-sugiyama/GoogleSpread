@@ -30,7 +30,7 @@ class GoogleSpread:
         self.logger.addHandler(self.ch)
 
 
-    def token_refresh():
+    def token_refresh(self):
         try:
             if self.credentials.access_token_expired:
                 self.gc.login()  # refreshes the token
