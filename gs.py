@@ -252,6 +252,34 @@ class GoogleSpread:
             return None
 
 
+    def find_cell(self, value):
+        try:
+            result = self.sheet.find(value)
+            return result
+
+        except gspread.exceptions.CellNotFound:
+            return None
+
+        except Exception as e:
+            self.logger.error(sys._getframe().f_code.co_name)
+            self.logger.error(e)
+            return None
+
+
+    def find_all_cell(self, value):
+        try:
+            result = self.sheet.findall(value)
+            return result
+
+        except gspread.exceptions.CellNotFound:
+            return None
+
+        except Exception as e:
+            self.logger.error(sys._getframe().f_code.co_name)
+            self.logger.error(e)
+            return None
+
+
     def find_spread_key(self, book_name):
         try:
             result = self.ctr_sheet.find(book_name)
