@@ -1,6 +1,7 @@
 import sys
 import logging
 import json
+import httplib2
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -41,7 +42,8 @@ class GoogleSpread:
     def token_refresh(self):
         try:
             if self.credentials.access_token_expired:
-                self.gc.login()  # refreshes the token
+                self.credentials.refresh(httplib2.Http())
+#                self.gc.login()  # refreshes the token
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
