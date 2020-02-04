@@ -7,27 +7,35 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 class GoogleSpread:
 
-    def __init__(self, credentials_file, email = 'dammy@mail.com', prefix = ''):
-        self.share_email = email
+    def __init__(self, credentials_file, email = 'dammy@mail.com', prefix = '', log_class=None):
+        try:
+            if log_class is None:
+                # logger set
+                # Prints logger info to terminal
+                self.logger = logging.getLogger(str(prefix) + __name__)
+                self.logger.setLevel(logging.INFO)  # Change this to DEBUG if you want a lot more info
+                self.ch = logging.StreamHandler()
+                # create formatter
+                formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+                # add formatter to ch
+                self.ch.setFormatter(formatter)
+                self.logger.addHandler(self.ch)
+            else:
+                self.logger = log_class
 
-        feeds = 'https://spreadsheets.google.com/feeds'
-        drive = 'https://www.googleapis.com/auth/drive'
-        scope = [feeds, drive]
+            self.share_email = email
 
-        self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file, scope)
+            feeds = 'https://spreadsheets.google.com/feeds'
+            drive = 'https://www.googleapis.com/auth/drive'
+            scope = [feeds, drive]
 
-        self.gc = gspread.authorize(self.credentials)
+            self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file, scope)
 
-        # logger set
-        # Prints logger info to terminal
-        self.logger = logging.getLogger(str(prefix) + __name__)
-        self.logger.setLevel(logging.INFO)  # Change this to DEBUG if you want a lot more info
-        self.ch = logging.StreamHandler()
-        # create formatter
-        formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-        # add formatter to ch
-        self.ch.setFormatter(formatter)
-        self.logger.addHandler(self.ch)
+            self.gc = gspread.authorize(self.credentials)
+
+        except Exception as e:
+            self.logger.error(sys._getframe().f_code.co_name)
+            self.logger.error(e)
 
 
     def token_refresh(self):
