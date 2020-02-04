@@ -32,6 +32,9 @@ class GoogleSpread:
 
             self.credentials = ServiceAccountCredentials.from_json_keyfile_name(credentials_file, scope)
 
+            http = httplib2.Http()
+            http = self.credentials.authorize(http)
+            self.credentials.refresh(http)
             self.gc = gspread.authorize(self.credentials)
 
         except Exception as e:
@@ -41,9 +44,10 @@ class GoogleSpread:
 
     def token_refresh(self):
         try:
+            self.logger.info(f'access_token{self.credentials.access_token_expired}')
             if self.credentials.access_token_expired:
-                self.credentials.refresh(httplib2.Http())
-#                self.gc.login()  # refreshes the token
+#                self.credentials.refresh(httplib2.Http())
+                self.gc.login()  # refreshes the token
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
