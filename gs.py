@@ -44,9 +44,7 @@ class GoogleSpread:
 
     def token_refresh(self):
         try:
-            self.logger.info(f'access_token{self.credentials.access_token_expired}')
             if self.credentials.access_token_expired:
-#                self.credentials.refresh(httplib2.Http())
                 self.gc.login()  # refreshes the token
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
