@@ -46,6 +46,8 @@ class GoogleSpread:
         try:
             if self.credentials.access_token_expired:
                 self.gc.login()  # refreshes the token
+            return True
+
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -56,6 +58,7 @@ class GoogleSpread:
         try:
             self.ctr_book = self.gc.open_by_key(ctr_book_key)
             self.ctr_sheet = self.ctr_book.sheet1
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -71,6 +74,8 @@ class GoogleSpread:
 
             cr.share(self.share_email, perm_type='user', role='writer')
 
+            return True
+
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -80,6 +85,7 @@ class GoogleSpread:
     def set_workbook(self, spread_key):
         try:
             self.book = self.gc.open_by_key(spread_key)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -92,6 +98,7 @@ class GoogleSpread:
                 self.ctr_book.add_worksheet(title=name, rows=row, cols=col)
             else:
                 self.book.add_worksheet(title=name, rows=row, cols=col)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -101,6 +108,7 @@ class GoogleSpread:
     def set_worksheet_1(self):
         try:
             self.sheet = self.book.sheet1
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -110,6 +118,7 @@ class GoogleSpread:
     def set_worksheet(self, sheet_name):
         try:
             self.sheet = self.book.worksheet(sheet_name)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -219,6 +228,7 @@ class GoogleSpread:
                     self.ctr_sheet.update_cell(i + 1, col, value)
                 else:
                     self.sheet.update_cell(i + 1, col, value)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -232,6 +242,7 @@ class GoogleSpread:
                     self.ctr_sheet.update_cell(raw, i + 1, value)
                 else:
                     self.sheet.update_cell(raw, i + 1, value)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -244,6 +255,7 @@ class GoogleSpread:
                 self.ctr_sheet.append_row(list)
             else:
                 self.sheet.append_row(list)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
@@ -309,6 +321,7 @@ class GoogleSpread:
     def delete_row(self, row):
         try:
             self.sheet.delete_row(row)
+            return True
         except Exception as e:
             self.logger.error(sys._getframe().f_code.co_name)
             self.logger.error(e)
